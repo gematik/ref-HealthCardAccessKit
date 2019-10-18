@@ -1,0 +1,10 @@
+output: docs
+author: gematik Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH
+author_url: http://www.gematik.de
+exclude: /*/internal*
+module: HealthCardAccessKit
+github_url: http://www.github.com/gematik/HealthCardAccessKit
+theme: jony
+xcodebuild_arguments:
+  - "-project"
+  - 'HealthCardAccessKit.xcodeproj'
