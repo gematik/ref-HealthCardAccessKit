@@ -163,7 +163,7 @@ final class HCCExtAccessTransparentDataTest: XCTestCase {
     }
 
     func testUpdateWithoutShortFileIdentifier() {
-        let data = Data(bytes: [0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
+        let data = Data([0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
         guard let hccUpdate = try? HealthCardCommand.Update.updateCommand(data: data) else {
             Nimble.fail("Could not create HealthCardCommand")
             return
@@ -180,7 +180,7 @@ final class HCCExtAccessTransparentDataTest: XCTestCase {
 
     func testUpdateWithShortFileIdentifier() {
         let sfid = "0E" as ShortFileIdentifier
-        let data = Data(bytes: [0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
+        let data = Data([0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
         guard let hccUpdate = try? HealthCardCommand.Update.updateCommand(with: sfid, data: data, offset: 11) else {
             Nimble.fail("Could not create HealthCardCommand")
             return
@@ -193,7 +193,7 @@ final class HCCExtAccessTransparentDataTest: XCTestCase {
 
     func testUpdateThrowing() {
         let sfid = "0E" as ShortFileIdentifier
-        let data = Data(bytes: [0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
+        let data = Data([0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
         expect(try HealthCardCommand.Update.updateCommand(data: data, offset: 32767)).toNot(throwError())
         expect(try HealthCardCommand.Update.updateCommand(with: sfid, data: data, offset: 256))
                 .to(throwError(HealthCardCommandBuilder.InvalidArgument
@@ -201,7 +201,7 @@ final class HCCExtAccessTransparentDataTest: XCTestCase {
     }
 
     func testWriteWithoutShortFileIdentifier() {
-        let data = Data(bytes: [0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
+        let data = Data([0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
         guard let hccWrite = try? HealthCardCommand.Write.writeCommand(data: data) else {
             Nimble.fail("Could not create HealthCardCommand")
             return
@@ -214,7 +214,7 @@ final class HCCExtAccessTransparentDataTest: XCTestCase {
 
     func testWriteWithShortFileIdentifier() {
         let sfid = "0E" as ShortFileIdentifier
-        let data = Data(bytes: [0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
+        let data = Data([0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
         guard let hccWrite = try? HealthCardCommand.Write.writeCommand(with: sfid, data: data) else {
             Nimble.fail("Could not create HealthCardCommand")
             return

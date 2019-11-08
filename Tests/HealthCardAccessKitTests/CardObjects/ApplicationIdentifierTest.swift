@@ -21,25 +21,25 @@ import XCTest
 final class ApplicationIdentifierTest: XCTestCase {
     func testValidAID() {
         let aid = "D27600000102" as ApplicationIdentifier
-        let expected = Data(bytes: [0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
+        let expected = Data([0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
         expect(aid.rawValue) == expected
     }
 
     func testValidAID_initFromString() {
         expect {
             try ApplicationIdentifier(hex: "D276000001").rawValue
-        }.to(equal(Data(bytes: [0xd2, 0x76, 0x0, 0x0, 0x1])))
+        }.to(equal(Data([0xd2, 0x76, 0x0, 0x0, 0x1])))
     }
 
     func testValidAID_initFromData() {
-        let data = Data(bytes: [0x1, 0x2, 0x23, 0x45, 0xd0])
+        let data = Data([0x1, 0x2, 0x23, 0x45, 0xd0])
         expect {
             try ApplicationIdentifier(data).rawValue
         }.to(equal(data))
     }
 
     func testValidatorWhenAIDisInvalidLength() {
-        let invalidAID = Data(bytes: [0x0, 0x1, 0x2])
+        let invalidAID = Data([0x0, 0x1, 0x2])
         expect {
             try ApplicationIdentifier.isValid(invalidAID).get()
         }.to(throwError(ApplicationIdentifier.Error.invalidLength(length: 3)))
@@ -54,7 +54,7 @@ final class ApplicationIdentifierTest: XCTestCase {
     }
 
     func testValidatorWhenAIDisValid() {
-        let validAID = Data(bytes: [0x0, 0x1, 0x2, 0x3, 0x4])
+        let validAID = Data([0x0, 0x1, 0x2, 0x3, 0x4])
         expect {
             try ApplicationIdentifier.isValid(validAID).get()
         } == validAID

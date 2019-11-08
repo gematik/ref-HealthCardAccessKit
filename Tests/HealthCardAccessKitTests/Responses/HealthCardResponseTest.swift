@@ -22,7 +22,7 @@ import XCTest
 final class HealthCardResponseTest: XCTestCase {
 
     func testHealthCardResponse_OK() {
-        guard let ok9000 = try? APDU.Response(apdu: Data(bytes: [0x90, 0x0])) else {
+        guard let ok9000 = try? APDU.Response(apdu: Data([0x90, 0x0])) else {
             Nimble.fail("Could not create APDU response")
             return
         }

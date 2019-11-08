@@ -43,7 +43,8 @@ public struct CardVersion2 {
     /// - Note: Only filled for gSMC-K
     public let fillingInstructionsEfEnvironmentSettingsVersion: Data? //swiftlint:disable:this identifier_name
     /// Information of C7 with version of filling instruction for EF.GDO
-    public let fillingInstructionsEfLoggingVersion: Data
+    /// - Note: Only filled for egk
+    public let fillingInstructionsEfLoggingVersion: Data?
 
     /// Parse a CardVersion2 model from ASN.1 encoded data
     /// - Parameter data: ASN.1 encoded CardVersions
@@ -75,7 +76,7 @@ public struct CardVersion2 {
         fillingInstructionsEfAtrVersion = try get(tag: 5)
         fillingInstructionsEfKeyInfoVersion = try? get(tag: 6)
         fillingInstructionsEfEnvironmentSettingsVersion = try? get(tag: 3)
-        fillingInstructionsEfLoggingVersion = try get(tag: 7)
+        fillingInstructionsEfLoggingVersion = try? get(tag: 7)
     }
 
     /// Parse the `objectSystemVersion` parameter to a `CardGeneration` or nil when unknown/unsupported.

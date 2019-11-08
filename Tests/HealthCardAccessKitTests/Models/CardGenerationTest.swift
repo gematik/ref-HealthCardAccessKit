@@ -34,14 +34,14 @@ class CardGenerationTest: XCTestCase {
     }
 
     func testParseCardGenerationParsing() {
-        expect(CardGeneration.parseCardGeneration(data: Data(bytes: [0x0, 0x0, 0x0]))) == .g1
-        expect(CardGeneration.parseCardGeneration(data: Data(bytes: [0x3, 0x00, 0x02]))) == .g1
-        expect(CardGeneration.parseCardGeneration(data: Data(bytes: [0x3, 0x00, 0x03]))) == .g1P
-        expect(CardGeneration.parseCardGeneration(data: Data(bytes: [0x3, 0x63, 0x63]))) == .g1P
-        expect(CardGeneration.parseCardGeneration(data: Data(bytes: [0x4, 0x00, 0x00]))) == .g2
-        expect(CardGeneration.parseCardGeneration(data: Data(bytes: [0x4, 0x03, 0x63]))) == .g2
-        expect(CardGeneration.parseCardGeneration(data: Data(bytes: [0x4, 0x04, 0x00]))) == .g2_1
-        expect(CardGeneration.parseCardGeneration(data: Data(bytes: [0x5, 0x00, 0x00]))) == .g2_1
+        expect(CardGeneration.parseCardGeneration(data: Data([0x0, 0x0, 0x0]))) == .g1
+        expect(CardGeneration.parseCardGeneration(data: Data([0x3, 0x00, 0x02]))) == .g1
+        expect(CardGeneration.parseCardGeneration(data: Data([0x3, 0x00, 0x03]))) == .g1P
+        expect(CardGeneration.parseCardGeneration(data: Data([0x3, 0x63, 0x63]))) == .g1P
+        expect(CardGeneration.parseCardGeneration(data: Data([0x4, 0x00, 0x00]))) == .g2
+        expect(CardGeneration.parseCardGeneration(data: Data([0x4, 0x03, 0x63]))) == .g2
+        expect(CardGeneration.parseCardGeneration(data: Data([0x4, 0x04, 0x00]))) == .g2_1
+        expect(CardGeneration.parseCardGeneration(data: Data([0x5, 0x00, 0x00]))) == .g2_1
         expect(CardGeneration.parseCardGeneration(data: Data.empty)).to(beNil())
     }
 

@@ -21,18 +21,18 @@ import XCTest
 final class ShortFileIdentifierTest: XCTestCase {
     func testValidSFID() {
         let sfid = "0E" as ShortFileIdentifier
-        let expected = Data(bytes: [0x0E])
+        let expected = Data([0x0E])
         expect(sfid.rawValue) == expected
     }
 
     func testValidSFID_initFromString() {
         expect {
             try ShortFileIdentifier(hex: "1E").rawValue
-        }.to(equal(Data(bytes: [0x1e])))
+        }.to(equal(Data([0x1e])))
     }
 
     func testValidSFID_initFromData() {
-        let data = Data(bytes: [0x10])
+        let data = Data([0x10])
         expect {
             try ShortFileIdentifier(data).rawValue
         }.to(equal(data))
@@ -53,7 +53,7 @@ final class ShortFileIdentifierTest: XCTestCase {
             invalidSFIDs.append(idx)
         }
         invalidSFIDs.append(0x0)
-        invalidSFIDs.map { Data(bytes: [$0]) }.forEach { sfid in
+        invalidSFIDs.map { Data([$0]) }.forEach { sfid in
             expect {
                 try ShortFileIdentifier.isValid(sfid).get()
             }.to(throwError(
@@ -70,7 +70,7 @@ final class ShortFileIdentifierTest: XCTestCase {
         for idx: UInt8 in 0x1...0x1e {
             invalidSFIDs.append(idx)
         }
-        invalidSFIDs.map { Data(bytes: [$0]) }.forEach { sfid in
+        invalidSFIDs.map { Data([$0]) }.forEach { sfid in
             expect {
                 try ShortFileIdentifier.isValid(sfid).get()
             } == sfid

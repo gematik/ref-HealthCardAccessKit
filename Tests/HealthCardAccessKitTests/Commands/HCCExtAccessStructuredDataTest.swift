@@ -25,7 +25,7 @@ final class HCCExtAccessStructuredDataTest: XCTestCase {
     func testActivateRecord() {
         let recordNumber: UInt8 = 0x2
         let sfid = "1C" as ShortFileIdentifier
-        let expected = Data(bytes: [0x0, 0x8, 0x2, 0x4])
+        let expected = Data([0x0, 0x8, 0x2, 0x4])
 
         expect {
             try HealthCardCommand
@@ -33,14 +33,14 @@ final class HCCExtAccessStructuredDataTest: XCTestCase {
                     .bytes
         } == expected
 
-        let expected2 = Data(bytes: [0x0, 0x8, 0x2, 0x5])
+        let expected2 = Data([0x0, 0x8, 0x2, 0x5])
         expect {
             try HealthCardCommand
                     .ActivateRecord.activateRecord(recordNumber: recordNumber, useAllFollowingRecords: true)
                     .bytes
         } == expected2
 
-        let expected3 = Data(bytes: [0x0, 0x8, 0x2, 0xe5])
+        let expected3 = Data([0x0, 0x8, 0x2, 0xe5])
         expect {
             try HealthCardCommand
                     .ActivateRecord.activateRecord(shortFileIdentifier: sfid,
@@ -58,16 +58,16 @@ final class HCCExtAccessStructuredDataTest: XCTestCase {
 
     func testAppendRecord() {
         let sfid = "1C" as ShortFileIdentifier
-        let data = Data(bytes: [0x9, 0x8, 0x7])
+        let data = Data([0x9, 0x8, 0x7])
 
-        let expected = Data(bytes: [0x0, 0xe2, 0x0, 0x0]) + Data(bytes: [0x3]) + data
+        let expected = Data([0x0, 0xe2, 0x0, 0x0]) + Data([0x3]) + data
         expect {
             try HealthCardCommand
                     .AppendRecord.appendRecord(recordData: data)
                     .bytes
         } == expected
 
-        let expected2 = Data(bytes: [0x0, 0xe2, 0x0, 0xe0]) + Data(bytes: [0x3]) + data
+        let expected2 = Data([0x0, 0xe2, 0x0, 0xe0]) + Data([0x3]) + data
         expect {
             try HealthCardCommand
                     .AppendRecord.appendRecord(shortFileIdentifier: sfid, recordData: data)
@@ -90,14 +90,14 @@ final class HCCExtAccessStructuredDataTest: XCTestCase {
         let recordNumber: UInt8 = 0x2
         let sfid = "1C" as ShortFileIdentifier
 
-        let expected = Data(bytes: [0x0, 0x6, 0x2, 0x4])
+        let expected = Data([0x0, 0x6, 0x2, 0x4])
         expect {
             try HealthCardCommand
                     .DeactivateRecord.deactivateRecord(recordNumber: recordNumber)
                     .bytes
         } == expected
 
-        let expected3 = Data(bytes: [0x0, 0x6, 0x2, 0xe5])
+        let expected3 = Data([0x0, 0x6, 0x2, 0xe5])
         expect {
             try HealthCardCommand
                     .DeactivateRecord.deactivateRecord(shortFileIdentifier: sfid,
@@ -111,14 +111,14 @@ final class HCCExtAccessStructuredDataTest: XCTestCase {
         let recordNumber: UInt8 = 0x3
         let sfid = "1D" as ShortFileIdentifier
 
-        let expected = Data(bytes: [0x80, 0xc, 0x3, 0x4])
+        let expected = Data([0x80, 0xc, 0x3, 0x4])
         expect {
             try HealthCardCommand
                     .DeleteRecord.deleteRecord(recordNumber: recordNumber)
                     .bytes
         } == expected
 
-        let expected2 = Data(bytes: [0x80, 0xc, 0x3, 0xec])
+        let expected2 = Data([0x80, 0xc, 0x3, 0xec])
         expect {
             try HealthCardCommand
                     .DeleteRecord.deleteRecord(shortFileIdentifier: sfid, recordNumber: recordNumber)
@@ -136,14 +136,14 @@ final class HCCExtAccessStructuredDataTest: XCTestCase {
         let recordNumber: UInt8 = 0x3
         let sfid = "1D" as ShortFileIdentifier
 
-        let expected = Data(bytes: [0x0, 0xc, 0x3, 0x4])
+        let expected = Data([0x0, 0xc, 0x3, 0x4])
         expect {
             try HealthCardCommand
                     .EraseRecord.eraseRecord(recordNumber: recordNumber)
                     .bytes
         } == expected
 
-        let expected2 = Data(bytes: [0x0, 0xc, 0x3, 0xec])
+        let expected2 = Data([0x0, 0xc, 0x3, 0xec])
         expect {
             try HealthCardCommand
                     .EraseRecord.eraseRecord(shortFileIdentifier: sfid, recordNumber: recordNumber)
@@ -156,14 +156,14 @@ final class HCCExtAccessStructuredDataTest: XCTestCase {
         let sfid = "1D" as ShortFileIdentifier
         let expectedLength: Int = 0x1234
 
-        let expected = Data(bytes: [0x0, 0xb2, 0x3, 0x4]) + Data(bytes: [0x0]) + Data([0x12, 0x34])
+        let expected = Data([0x0, 0xb2, 0x3, 0x4]) + Data([0x0]) + Data([0x12, 0x34])
         expect {
             try HealthCardCommand
                     .ReadRecord.readRecord(recordNumber: recordNumber, expectedLength: expectedLength)
                     .bytes
         } == expected
 
-        let expected2 = Data(bytes: [0x0, 0xb2, 0x3, 0xec]) + Data(bytes: [0x0]) + Data([0x12, 0x34])
+        let expected2 = Data([0x0, 0xb2, 0x3, 0xec]) + Data([0x0]) + Data([0x12, 0x34])
         expect {
             try HealthCardCommand
                     .ReadRecord.readRecord(shortFileIdentifier: sfid,
@@ -184,12 +184,12 @@ final class HCCExtAccessStructuredDataTest: XCTestCase {
     func testSearchRecord() {
         let recordNumber: UInt8 = 0x3
         let sfid = "1C" as ShortFileIdentifier
-        let searchData = Data(bytes: [0x9, 0x8, 0x7])
+        let searchData = Data([0x9, 0x8, 0x7])
         let expectedLength: Int = 0x1234
 
-        let expected = Data(bytes: [0x0, 0xa2, 0x3, 0x4])
-                + Data(bytes: [0x0, 0x0, 0x3]) + searchData
-                + Data(bytes: [0x12, 0x34])
+        let expected = Data([0x0, 0xa2, 0x3, 0x4])
+                + Data([0x0, 0x0, 0x3]) + searchData
+                + Data([0x12, 0x34])
         expect {
             try HealthCardCommand
                     .SearchRecord.searchRecord(recordNumber: recordNumber,
@@ -198,9 +198,9 @@ final class HCCExtAccessStructuredDataTest: XCTestCase {
                     .bytes
         } == expected
 
-        let expected2 = Data(bytes: [0x0, 0xa2, 0x3, 0xe4])
-                + Data(bytes: [0x0, 0x0, 0x3]) + searchData
-                + Data(bytes: [0x12, 0x34])
+        let expected2 = Data([0x0, 0xa2, 0x3, 0xe4])
+                + Data([0x0, 0x0, 0x3]) + searchData
+                + Data([0x12, 0x34])
         expect {
             try HealthCardCommand
                     .SearchRecord.searchRecord(shortFileIdentifier: sfid,
@@ -230,16 +230,16 @@ final class HCCExtAccessStructuredDataTest: XCTestCase {
     func testUpdateRecord() {
         let recordNumber: UInt8 = 0x3
         let sfid = "1C" as ShortFileIdentifier
-        let data = Data(bytes: [0x9, 0x8, 0x7])
+        let data = Data([0x9, 0x8, 0x7])
 
-        let expected = Data(bytes: [0x0, 0xdc, 0x3, 0x4]) + Data(bytes: [0x3]) + data
+        let expected = Data([0x0, 0xdc, 0x3, 0x4]) + Data([0x3]) + data
         expect {
             try HealthCardCommand
                     .UpdateRecord.updateRecord(recordNumber: recordNumber, newData: data)
                     .bytes
         } == expected
 
-        let expected2 = Data(bytes: [0x0, 0xdc, 0x3, 0xe4]) + Data(bytes: [0x3]) + data
+        let expected2 = Data([0x0, 0xdc, 0x3, 0xe4]) + Data([0x3]) + data
         expect {
             try HealthCardCommand
                     .UpdateRecord.updateRecord(shortFileIdentifier: sfid, recordNumber: recordNumber, newData: data)

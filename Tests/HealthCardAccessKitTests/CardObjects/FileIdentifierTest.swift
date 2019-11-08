@@ -21,18 +21,18 @@ import XCTest
 final class FileIdentifierTest: XCTestCase {
     func testValidFID() {
         let fid = "D276" as FileIdentifier
-        let expected = Data(bytes: [0xd2, 0x76])
+        let expected = Data([0xd2, 0x76])
         expect(fid.rawValue) == expected
     }
 
     func testValidFID_initFromString() {
         expect {
             try FileIdentifier(hex: "D276").rawValue
-        }.to(equal(Data(bytes: [0xd2, 0x76])))
+        }.to(equal(Data([0xd2, 0x76])))
     }
 
     func testValidFID_initFromData() {
-        let data = Data(bytes: [0x10, 0x2])
+        let data = Data([0x10, 0x2])
         expect {
             try FileIdentifier(data).rawValue
         }.to(equal(data))
@@ -49,11 +49,11 @@ final class FileIdentifierTest: XCTestCase {
     func testValidatorWhenFIDisInvalidLength() {
         /// Length != 2 is invalid
         expect {
-            try FileIdentifier.isValid(Data(bytes: [0x1])).get()
+            try FileIdentifier.isValid(Data([0x1])).get()
         }.to(throwError())
 
         expect {
-            try FileIdentifier.isValid(Data(bytes: [0x1, 0x2, 0x3])).get()
+            try FileIdentifier.isValid(Data([0x1, 0x2, 0x3])).get()
         }.to(throwError())
     }
 
@@ -71,7 +71,7 @@ final class FileIdentifierTest: XCTestCase {
             $0 != 0x011c
         }
         .map {
-            Data(bytes: [UInt8($0 >> 8), UInt8($0 & 0xff)])
+            Data([UInt8($0 >> 8), UInt8($0 & 0xff)])
         }
         .forEach { fid in
             expect {
@@ -92,7 +92,7 @@ final class FileIdentifierTest: XCTestCase {
             $0 != 0x3fff
         }
         .map {
-            Data(bytes: [UInt8($0 >> 8), UInt8($0 & 0xff)])
+            Data([UInt8($0 >> 8), UInt8($0 & 0xff)])
         }
         .forEach { validFID in
             expect {

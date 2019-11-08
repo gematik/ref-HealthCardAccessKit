@@ -17,4 +17,4 @@
 import Foundation
 
 /// Card item
-public protocol CardItemType {}
+public protocol CardItemType: Equatable {}

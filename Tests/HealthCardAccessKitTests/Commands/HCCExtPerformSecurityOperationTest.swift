@@ -31,29 +31,29 @@ final class HCCExtPerformSecurityOperationTest: XCTestCase {
     let bundle = Bundle(for: HCCExtPerformSecurityOperationTest.self)
 
     func testPsoChecksum_OptionDES() {
-        let data = Data(bytes: [0x1f, 0x2f, 0xff, 0xef])
+        let data = Data([0x1f, 0x2f, 0xff, 0xef])
 
-        let expected = Data(bytes: [0x0, 0x2a, 0x8e, 0x80, 0x4] + data + [0x0])
+        let expected = Data([0x0, 0x2a, 0x8e, 0x80, 0x4] + data + [0x0])
         expect {
             try HealthCardCommand.PsoChecksum.hashUsingDES(data: data).bytes
         } == expected
 
-        let expectedLong = Data(bytes: [0x0, 0x2a, 0x8e, 0x80, 0x0, 0x1, 0x2c] + dataLong + [0x0, 0x0])
+        let expectedLong = Data([0x0, 0x2a, 0x8e, 0x80, 0x0, 0x1, 0x2c] + dataLong + [0x0, 0x0])
         expect {
             try HealthCardCommand.PsoChecksum.hashUsingDES(data: self.dataLong).bytes
         } == expectedLong
     }
 
     func testPsoChecksum_AES() {
-        let data = Data(bytes: [0x1f, 0x2f, 0xff, 0xef])
+        let data = Data([0x1f, 0x2f, 0xff, 0xef])
 
-        let expected = Data(bytes: [0x0, 0x2a, 0x8e, 0x80, 0x5, 0x0] + data + [0x0])
+        let expected = Data([0x0, 0x2a, 0x8e, 0x80, 0x5, 0x0] + data + [0x0])
         expect {
             try HealthCardCommand.PsoChecksum.hashUsingAES(incrementSSCmac: false, data: data)
                     .bytes
         } == expected
 
-        let expectedLong = Data(bytes: [0x0, 0x2a, 0x8e, 0x80, 0x0, 0x1, 0x2d, 0x1] + dataLong + [0x0, 0x0])
+        let expectedLong = Data([0x0, 0x2a, 0x8e, 0x80, 0x0, 0x1, 0x2d, 0x1] + dataLong + [0x0, 0x0])
         expect {
             try HealthCardCommand.PsoChecksum.hashUsingAES(incrementSSCmac: true, data: self.dataLong)
                     .bytes
@@ -61,7 +61,7 @@ final class HCCExtPerformSecurityOperationTest: XCTestCase {
     }
 
     func testPsoChecksumResponseStatus() {
-        let data = Data(bytes: [0x1f, 0x2f, 0xff, 0xef])
+        let data = Data([0x1f, 0x2f, 0xff, 0xef])
 
         expect {
             try HealthCardCommand.PsoChecksum.hashUsingAES(incrementSSCmac: false, data: data)
@@ -70,14 +70,14 @@ final class HCCExtPerformSecurityOperationTest: XCTestCase {
     }
 
     func testPsoDSA() {
-        let data = Data(bytes: [0x1f, 0x2f, 0xff, 0xef])
+        let data = Data([0x1f, 0x2f, 0xff, 0xef])
 
-        let expected = Data(bytes: [0x0, 0x2a, 0x9e, 0x9a, 0x4] + data + [0x0])
+        let expected = Data([0x0, 0x2a, 0x9e, 0x9a, 0x4] + data + [0x0])
         expect {
             try HealthCardCommand.PsoDSA.sign(data).bytes
         } == expected
 
-        let expectedLong = Data(bytes: [0x0, 0x2a, 0x9e, 0x9a, 0x0, 0x1, 0x2c] + dataLong + [0x0, 0x0])
+        let expectedLong = Data([0x0, 0x2a, 0x9e, 0x9a, 0x0, 0x1, 0x2c] + dataLong + [0x0, 0x0])
         expect {
             try HealthCardCommand.PsoDSA.sign(self.dataLong)
                     .bytes
@@ -85,16 +85,16 @@ final class HCCExtPerformSecurityOperationTest: XCTestCase {
     }
 
     func testPsoDSAResponseStatus() {
-        let data = Data(bytes: [0x1f, 0x2f, 0xff, 0xef])
+        let data = Data([0x1f, 0x2f, 0xff, 0xef])
         expect {
             try HealthCardCommand.PsoDSA.sign(data).responseStatuses.keys
         }.to(contain([0x6400, 0x6982, 0x6985, 0x6a81, 0x6a88, 0x9000]))
     }
 
     func testPsoDecipher() {
-        let data = Data(bytes: [0x66])
+        let data = Data([0x66])
 
-        let expectedRsa = Data(bytes: [0x0, 0x2a, 0x80, 0x86, 0x0, 0x0, 0x2, 0x0, 0x66, 0x0, 0x0])
+        let expectedRsa = Data([0x0, 0x2a, 0x80, 0x86, 0x0, 0x0, 0x2, 0x0, 0x66, 0x0, 0x0])
         expect {
             try HealthCardCommand.PsoDecipher.decipherUsingRsa(cryptogram: data)
                     .bytes
@@ -105,13 +105,13 @@ final class HCCExtPerformSecurityOperationTest: XCTestCase {
                     .ne
         } == APDU.expectedLengthWildcardExtended
 
-        let expectedElc = Data(bytes: [0x0, 0x2a, 0x80, 0x86, 0x1, 0x66, 0x0])
+        let expectedElc = Data([0x0, 0x2a, 0x80, 0x86, 0x1, 0x66, 0x0])
         expect {
             try HealthCardCommand.PsoDecipher.decipherUsingElc(cryptogram: data)
                     .bytes
         } == expectedElc
 
-        let expectedSymKey = Data(bytes: [0x0, 0x2a, 0x80, 0x86, 0x2, 0x1, 0x66, 0x0])
+        let expectedSymKey = Data([0x0, 0x2a, 0x80, 0x86, 0x2, 0x1, 0x66, 0x0])
         expect {
             try HealthCardCommand.PsoDecipher.decipherUsingSymmetricKey(cryptogram: data)
                     .bytes
@@ -124,7 +124,7 @@ final class HCCExtPerformSecurityOperationTest: XCTestCase {
     }
 
     func testPsoEncipher_usingTransmittedRsaKey() {
-        let dataToBeEnciphered = Data(bytes: [0x66])
+        let dataToBeEnciphered = Data([0x66])
         let pubKeyData = "rsa_pub_key.der".loadAsResource(at: "PSO", bundle: bundle)
         var createError: Unmanaged<CFError>?
         guard let publicKey = SecKeyCreateWithData(pubKeyData as NSData,
@@ -163,7 +163,7 @@ final class HCCExtPerformSecurityOperationTest: XCTestCase {
     }
 
     func testPsoEncipher_usingTransmittedElcKey() {
-        let dataToBeEnciphered = Data(bytes: [0x66])
+        let dataToBeEnciphered = Data([0x66])
         let pubKeyData = "elc_pub_key.der".loadAsResource(at: "PSO", bundle: bundle)
         var createError: Unmanaged<CFError>?
         guard let publicKey = SecKeyCreateWithData(pubKeyData as NSData,
@@ -185,35 +185,35 @@ final class HCCExtPerformSecurityOperationTest: XCTestCase {
     }
 
     func testPsoEncipher_usingKeysOnCard() {
-        let dataToBeEnciphered = Data(bytes: [0x66])
+        let dataToBeEnciphered = Data([0x66])
         expect {
             try HealthCardCommand.PsoEncipher.encipherUsingRsaKeyOnCard(data: dataToBeEnciphered)
                     .bytes
-        } == Data(bytes: [0x0, 0x2a, 0x86, 0x80, 0x0, 0x0, 0x1, 0x66, 0x0, 0x0])
+        } == Data([0x0, 0x2a, 0x86, 0x80, 0x0, 0x0, 0x1, 0x66, 0x0, 0x0])
         expect {
             try HealthCardCommand.PsoEncipher.encipherUsingRsaKeyOnCard(data: self.dataLong)
                     .bytes
-        } == Data(bytes: [0x0, 0x2a, 0x86, 0x80, 0x0, 0x1, 0x2c] + dataLong + [0x0, 0x0])
+        } == Data([0x0, 0x2a, 0x86, 0x80, 0x0, 0x1, 0x2c] + dataLong + [0x0, 0x0])
 
         expect {
             try HealthCardCommand.PsoEncipher.encipherUsingElcKeyOnCard(data: dataToBeEnciphered)
                     .bytes
-        } == Data(bytes: [0x0, 0x2a, 0x86, 0x80, 0x1, 0x66, 0x0])
+        } == Data([0x0, 0x2a, 0x86, 0x80, 0x1, 0x66, 0x0])
         expect {
             try HealthCardCommand.PsoEncipher.encipherUsingElcKeyOnCard(data: self.dataLong)
                     .bytes
-        } == Data(bytes: [0x0, 0x2a, 0x86, 0x80, 0x0, 0x1, 0x2c] + dataLong + [0x0, 0x0])
+        } == Data([0x0, 0x2a, 0x86, 0x80, 0x0, 0x1, 0x2c] + dataLong + [0x0, 0x0])
 
         expect {
             try HealthCardCommand.PsoEncipher.encipherUsingSymmetricKeyOnCard(data:
             dataToBeEnciphered)
                     .bytes
-        } == Data(bytes: [0x0, 0x2a, 0x86, 0x80, 0x1, 0x66, 0x0])
+        } == Data([0x0, 0x2a, 0x86, 0x80, 0x1, 0x66, 0x0])
         expect {
             try HealthCardCommand.PsoEncipher.encipherUsingSymmetricKeyOnCard(data:
             self.dataLong)
                     .bytes
-        } == Data(bytes: [0x0, 0x2a, 0x86, 0x80, 0x0, 0x1, 0x2c] + dataLong + [0x0, 0x0])
+        } == Data([0x0, 0x2a, 0x86, 0x80, 0x0, 0x1, 0x2c] + dataLong + [0x0, 0x0])
     }
 
     func testPsoVerifyGemCvCertificate() {
@@ -238,7 +238,7 @@ final class HCCExtPerformSecurityOperationTest: XCTestCase {
     }
 
     func testPsoVerifyChecksum() {
-        let data = Data(bytes: [0x1f, 0x2f, 0xff, 0xef])
+        let data = Data([0x1f, 0x2f, 0xff, 0xef])
         let mac = data + data
         let expectedAPDU = Data([0x0, 0x2a, 0x0, 0xa2, 0x10, 0x80, 0x4] + data + [0x8e, 0x8] + mac)
 

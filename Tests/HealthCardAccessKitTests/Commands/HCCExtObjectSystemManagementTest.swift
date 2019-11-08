@@ -56,7 +56,7 @@ final class HCCExtObjectSystemManagementTest: XCTestCase {
     }
 
     func testLoadApplication() {
-        let data = Data(bytes: [0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
+        let data = Data([0xd2, 0x76, 0x0, 0x0, 0x1, 0x2])
         let hccLoadApplication = HealthCardCommand.LoadApplication.loadApplication(useChaining: true, data: data)
         expect(hccLoadApplication.cla).to(equal(0x10))
         expect(hccLoadApplication.ins).to(equal(0xea))

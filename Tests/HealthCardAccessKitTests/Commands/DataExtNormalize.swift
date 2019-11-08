@@ -22,11 +22,11 @@ import XCTest
 final class DataExtNormalize: XCTestCase {
 
     func testNormalize() {
-        let data = Data(bytes: [0xaa, 0xaa, 0xaa])
+        let data = Data([0xaa, 0xaa, 0xaa])
 
         expect {
             data.normalize(to: 2)
-        } == Data(bytes: [0xaa, 0xaa])
+        } == Data([0xaa, 0xaa])
 
         expect {
             data.normalize(to: 3)

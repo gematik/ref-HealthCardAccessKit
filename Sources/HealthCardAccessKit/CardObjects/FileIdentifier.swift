@@ -56,10 +56,10 @@ public struct FileIdentifier: CardObjectIdentifierType {
         guard value.count == 2 else {
             return .failure(Error.invalidLength(length: value.count))
         }
-        let fid: UInt16 = value.withUnsafeBytes { (bytes: UnsafePointer<UInt8>) -> UInt16 in
-            return bytes.withMemoryRebound(to: UInt16.self, capacity: 1) {
-                return $0.pointee.bigEndian
-            }
+
+        let fid: UInt16 = value.withUnsafeBytes { bytes in
+            //swiftlint:disable:next force_unwrapping
+            bytes.baseAddress!.assumingMemoryBound(to: UInt16.self).pointee.bigEndian
         }
 
         guard (fid >= 0x1000 && fid <= 0xfeff && fid != 0x3fff) || fid == 0x011c else {

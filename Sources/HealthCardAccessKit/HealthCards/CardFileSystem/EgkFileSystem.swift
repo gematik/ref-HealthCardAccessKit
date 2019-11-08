@@ -62,8 +62,10 @@ public struct EgkFileSystem {
         public static let hcaVD = ElementaryFile(fid: "D002", sfid: "02")
         /// MF/DF.HCA.EF.Verweis
         public static let hcaVerweis = ElementaryFile(fid: "D009", sfid: "09")
-        /// MF/DF.ESIGN.EF.AUT
+        /// MF/DF.ESIGN.EF.C.CH.AUT.R2048
         public static let esignCChAutR2048 = ElementaryFile(fid: "C500", sfid: "01")
+        /// MF/DF.ESIGN.EF.C.CH.AUT.E256
+        public static let esignCChAutE256 = ElementaryFile(fid: "C504", sfid: "04")
         /// MF/DF.ESIGN.EF.AUTN
         public static let esignCChAutnR2048 = ElementaryFile(fid: "C509", sfid: "09")
         /// MF/DF.ESIGN.EF.ENC

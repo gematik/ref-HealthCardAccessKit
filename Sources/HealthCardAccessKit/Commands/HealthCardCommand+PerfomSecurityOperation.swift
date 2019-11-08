@@ -198,7 +198,7 @@ extension HealthCardCommand {
         /// - Parameters:
         ///     - cryptogram: number of octets must be identical to OctetLength(n), n being the modulus of the key
         public static func decipherUsingRsa(cryptogram: Data) throws -> HealthCardCommand {
-            let data = Data(bytes: [0x0]) + cryptogram
+            let data = Data([0x0]) + cryptogram
             let expectedLength = APDU.expectedLengthWildcardExtended
             return try self.builder()
                     .set(data: data)
@@ -220,7 +220,7 @@ extension HealthCardCommand {
         /// - Parameters:
         ///     - cryptogram: number of octets must be a multiple of the block length of the used algorithm
         public static func decipherUsingSymmetricKey(cryptogram: Data) throws -> HealthCardCommand {
-            let data = Data(bytes: [0x1]) + cryptogram
+            let data = Data([0x1]) + cryptogram
             return try self.builder()
                     .set(data: data)
                     .set(ne: expectedLengthWildcard)
@@ -362,7 +362,7 @@ extension HealthCardCommand {
             let exponent = try ASN1Int(from: items[1])
 
             // build plainDo
-            let algDo = Data(bytes: [algId]).asn1encode(tag: .taggedTag(0x0))
+            let algDo = Data([algId]).asn1encode(tag: .taggedTag(0x0))
             let pukNDo = modulus.rawInt.normalize(to: keySizeInBits / 8).asn1encode(tag: .taggedTag(1))
             let pukEDo = exponent.rawInt.asn1encode(tag: .taggedTag(2))
             let keyDo = ASN1Kit.create(tag: .applicationTag(0x49), data: .constructed([pukNDo, pukEDo]))
@@ -385,7 +385,7 @@ extension HealthCardCommand {
             let curve = try ECCurveInfo.parse(publicKey: publicKey)
 
             // build plainDo
-            let algDo = Data(bytes: [0xb]).asn1encode(tag: .taggedTag(0x0))
+            let algDo = Data([0xb]).asn1encode(tag: .taggedTag(0x0))
             let oidDo = try curve.info.oid.asn1encode(tag: nil)
             let pobDo = curve.publicKey.normalize(to: keySizeInBits / 8).asn1encode(tag: .taggedTag(6))
             let keyDo = ASN1Kit.create(tag: .applicationTag(0x49), data: .constructed([pobDo]))

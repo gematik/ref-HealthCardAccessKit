@@ -51,7 +51,7 @@ public struct ShortFileIdentifier: CardObjectIdentifierType {
     }
 
     public init(_ value: UInt8) throws {
-        try self.init(Data(bytes: [value]))
+        try self.init(Data([value]))
     }
 }
 
