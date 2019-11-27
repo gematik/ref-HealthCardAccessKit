@@ -1155,7 +1155,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = DerivedData/HealthCardAccessKit/Info.plist;
+				INFOPLIST_FILE = Resources/HealthCardAccessKit_Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.gematik.ti.healthcardaccess.HealthCardAccessKit-macOS";
@@ -1243,7 +1243,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = DerivedData/HealthCardAccessKit/Info.plist;
+				INFOPLIST_FILE = Resources/HealthCardAccessKit_Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.gematik.ti.healthcardaccess.HealthCardAccessKit-iOS";
@@ -1268,7 +1268,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = DerivedData/HealthCardAccessKit/Info.plist;
+				INFOPLIST_FILE = Resources/HealthCardAccessKit_Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.gematik.ti.healthcardaccess.HealthCardAccessKit-iOS";
@@ -1348,7 +1348,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = DerivedData/HealthCardAccessKit/Info.plist;
+				INFOPLIST_FILE = Resources/HealthCardAccessKit_Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.gematik.ti.healthcardaccess.HealthCardAccessKit-macOS";

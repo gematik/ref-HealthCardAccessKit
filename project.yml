@@ -20,7 +20,7 @@ targets:
     type: framework
     platform: [macOS,iOS]
     info:
-      path: DerivedData/HealthCardAccessKit/Info.plist
+      path: Resources/HealthCardAccessKit_Info.plist
     sources:
       - Sources
     dependencies:
