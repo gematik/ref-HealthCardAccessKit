@@ -36,12 +36,14 @@ targets:
   HealthCardAccessKitTests:
     type: bundle.unit-test
     platform: [macOS,iOS]
+    info:
+      path: Resources/HealthCardAccessKitTests_Info.plist
     sources:
-      - path: Tests
+      - path: Tests/HealthCardAccessKitTests
         excludes:
-          - "HealthCardAccessKitTests/Integration/SelectCommandIntegrationTest.swift"
-          - "HealthCardAccessKitTests/Util/CardSimulatorTerminalResource.swift"
-          - "HealthCardAccessKitTests/Util/HCATerminalTestCase.swift"
+          - Integration
+          - Util/CardSimulatorTerminalResource.swift
+          - Util/HCATerminalTestCase.swift
     dependencies:
       - target: HealthCardAccessKit_${platform}
       - carthage: CardReaderProviderApi

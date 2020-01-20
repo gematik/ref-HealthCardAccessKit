@@ -1,0 +1,30 @@
+include::config.adoc[]
+
+== Overview
+
+This library contains the classes for cards, commands, card file systems and error handling.
+
+=== HealthCardAccessKit API
+
+The HealthCardAccessKit API Structure contains the `HealthCard` class representing all supported card types,
+ the `Commands` and `Responses` groups with all supported commands and responses for health cards,
+the `CardObjects` group with the possible objects on a health cards
+and the `Operation` group for cascading and executing commands on health cards.
+
+==== Health Cards
+The class `HealthCard` represents the potential types of health cards by storing a `HealthCardStatus` property which in
+case of being _valid_ by itself stores a `HealthCardPropertyType` which at the time of writing is represented by either
+one of the following
+
+- egk ("elektronische Gesundheitskarte")
+- hba ("Heilberufeausweis")
+- smcb ("Security Module Card Typ B").
+
+The `HealthCardPropertyType` by itself stores the `CardGeneration` (G1, G1P, G2, G2.1) as well.
+
+
+Furthermore the `HealthCard` object contains the physical card from a card reader and the current card channel.
+
+==== Commands
+
+The `Commands` groups contains all available `HealthCardCommand` objects for health cards through the `HealthCardCommandBuilder`.

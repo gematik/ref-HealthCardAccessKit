@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2019 gematik GmbH
+//  Copyright (c) 2020 gematik GmbH
 //  
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -31,11 +31,18 @@ final class ShortFileIdentifierTest: XCTestCase {
         }.to(equal(Data([0x1e])))
     }
 
-    func testValidSFID_initFromData() {
+    func testValidSFID_initFromUInt8() {
         let data = Data([0x10])
         expect {
-            try ShortFileIdentifier(data).rawValue
+            try ShortFileIdentifier(data[0]).rawValue
         }.to(equal(data))
+    }
+
+    func testValidSFID_initFromASN1() {
+        let data = Data([0x10])
+        expect {
+            try ShortFileIdentifier(asn1: data).rawValue
+        }.to(equal(Data([0x2])))
     }
 
     func testWhenSFIDhasNonHexValue() {
@@ -80,7 +87,8 @@ final class ShortFileIdentifierTest: XCTestCase {
     static let allTests = [
         ("testValidSFID", testValidSFID),
         ("testValidSFID_initFromString", testValidSFID_initFromString),
-        ("testValidSFID_initFromData", testValidSFID_initFromData),
+        ("testValidSFID_initFromUInt8", testValidSFID_initFromUInt8),
+        ("testValidSFID_initFromASN1", testValidSFID_initFromASN1),
         ("testWhenFIDhasNonHexValue", testWhenSFIDhasNonHexValue),
         ("testValidatorWhenOutOfRange", testValidatorWhenOutOfRange),
         ("testValidatorWhenSFIDisValid", testValidatorWhenSFIDisValid)

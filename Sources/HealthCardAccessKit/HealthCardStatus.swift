@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2019 gematik GmbH
+//  Copyright (c) 2020 gematik GmbH
 //  
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,18 +25,21 @@ public enum HealthCardStatus {
     /// when card type could not be determined
     case invalid
 
-    var isValid: Bool {
+    /// Whether the presented Card is valid in the gematik domain
+    public var isValid: Bool {
         if case .valid(_) = self {
             return true
         }
         return false
     }
 
-    var generation: CardGeneration? {
+    /// The generation version of the card/COS
+    public var generation: CardGeneration? {
         return type?.generation
     }
 
-    var type: HealthCardPropertyType? {
+    /// The kind of gematik Healthcard (eGK, HBA, SMC-B)
+    public var type: HealthCardPropertyType? {
         if case .valid(let cardType) = self {
             return cardType
         }

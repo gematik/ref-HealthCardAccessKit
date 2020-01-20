@@ -1,0 +1,65 @@
+include::config.adoc[]
+
+== Code Samples
+
+
+=== Create a command
+The design of this API follows the link:https://en.wikipedia.org/wiki/Command_pattern[command design pattern]
+as well as functional programming paradigm comparable to http://reactivex.io/[ReactiveX].
+Thus a command object of appropriate command class for the desired command to be sent has to be created
+first. When creating the command it needs to be configured.
+
+Following example shall send a +SELECT+ command to a smart card
+in order to read a certificate +EF.C.CH.AUT.R2048+ from the application +ESIGN+.
+
+First we want to to create a `SelectCommand` object passing a `ApplicationIdentifier`. We use one of the predefined
+helper functions by using `HealthCardCommand.Select`.
+
+One could also use the `HealthCardCommandBuilder` to construct a customized `HealthCardCommand`
+by setting the APDU-bytes manually.
+
+[source,swift]
+----
+include::{testDir}/HealthCardAccessKitTests/Integration/SelectCommandIntegrationTest.swift[tags=createCommand,indent=0]
+----
+
+
+=== Setting an execution target
+
+We execute the created command `CardType` instance which has been typically provided by a `CardReaderType`.
+
+In the next example we use a `HealthCard` object representing an eGK (elektronische Gesundheitskarte)
+as one kind of a `HealthCardType` implementing the `CardType` protocol.
+
+[source,swift]
+----
+include::{testDir}/HealthCardAccessKitTests/Integration/SelectCommandIntegrationTest.swift[tags=setExecutionTarget,indent=0]
+----
+
+The result of the command execution can be validated against an expected `ResponseStatus`,
+e.g. +SUCCESS+ (+0x9000+).
+
+[source,swift]
+----
+include::{testDir}/HealthCardAccessKitTests/Integration/SelectCommandIntegrationTest.swift[tags=evaluateResponseStatus,indent=0]
+----
+
+=== Create a Command Sequence
+
+It is possible to chain further commands via the `flatMap` function
+even in an inline manner for further execution:
+
+[source,swift]
+----
+include::{testDir}/HealthCardAccessKitTests/Integration/SelectCommandIntegrationTest.swift[tags=createCommandSequence,indent=0]
+----
+
+=== Process Execution result
+
+When the whole command chain is set up we have the run (or schedule) it by an `ExecutorService`.
+
+[source,swift]
+----
+include::{testDir}/HealthCardAccessKitTests/Integration/SelectCommandIntegrationTest.swift[tags=processExecutionResult,indent=0]
+----
+

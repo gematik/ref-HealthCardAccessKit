@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2019 gematik GmbH
+//  Copyright (c) 2020 gematik GmbH
 //  
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -84,7 +84,9 @@ final class FileControlParameterTest: XCTestCase {
         expect(fcp.fileDescriptor) == "78"
         expect(fcp.status) == .activated
         expect(fcp.size) == 0
+        expect(fcp.readSize).to(beNil())
         expect(fcp.fileIdentifier) == "3F00"
+        expect(fcp.shortFileIdentifier).to(beNil())
     }
 
     func testFCP_ADF() {
@@ -107,6 +109,7 @@ final class FileControlParameterTest: XCTestCase {
         expect(fcp.fileDescriptor) == "78"
         expect(fcp.status) == .activated
         expect(fcp.size) == 0
+        expect(fcp.readSize).to(beNil())
         expect(fcp.fileIdentifier).to(beNil())
     }
 
@@ -130,8 +133,10 @@ final class FileControlParameterTest: XCTestCase {
         expect(fcp.applicationIdentifier).to(beNil())
         expect(fcp.fileDescriptor) == "41"
         expect(fcp.status) == .activated
-        expect(fcp.size) == 0xC
+        expect(fcp.size) == 0xD
+        expect(fcp.readSize) == 0xC
         expect(fcp.fileIdentifier) == "2F02"
+        expect(fcp.shortFileIdentifier) == "02"
     }
 
     static let allTests = [

@@ -1,0 +1,13 @@
+ifndef::javadoc[]
+include::config.adoc[]
+endif::javadoc[]
+
+== Introduction
+
+This part describes the usage of low level HealthCardAccess API in order to send
+commands to a health card connected to card reader.
+
+.HealthCardAccess layer API
+image::root/hcarda_layer.png[caption="{figure-caption} {counter:figure}: ", width=50%, pdfwidth=80%]
+
+See the https://gematik.github.iGematik GitHub IO] page for a more general overview.

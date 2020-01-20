@@ -1,3 +1,6 @@
+# Release 1.0.10
+- API documentation on gh-pages branch for GitHub.io page - user guide - bugfixes regarding read from smart card
+
 # Release 1.0.6
 - update Carthage dependencies
 

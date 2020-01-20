@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2019 gematik GmbH
+//  Copyright (c) 2020 gematik GmbH
 //  
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -106,7 +106,10 @@ extension HealthCardCommand {
         static let p1: UInt8 = 0x9E // swiftlint:disable:this identifier_name
         static let p2: UInt8 = 0x9A // swiftlint:disable:this identifier_name
 
-        /// Signature for data, no "message recovery"
+        /// Use case compute a digital signature without "message recovery"
+        ///
+        /// - Parameter data: the value to sign
+        /// - Returns: PSO Compute Digital Signature Command
         public static func sign(_ data: Data) throws -> HealthCardCommand {
             return try HealthCardCommandBuilder()
                     .set(cla: cla)
@@ -119,7 +122,7 @@ extension HealthCardCommand {
                     .build()
         }
 
-        /// Use case verify an ELC signature gemSpec_COS#1.8.9.1
+        /// Use case verify an ELC signature gemSpec_COS#14.8.9.1
         /// - Parameters:
         ///     - signature: (normalized) signature hash to verify
         ///     - hash: the signed hash value

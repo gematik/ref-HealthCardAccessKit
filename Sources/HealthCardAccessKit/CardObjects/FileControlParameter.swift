@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2019 gematik GmbH
+//  Copyright (c) 2020 gematik GmbH
 //  
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -90,6 +90,8 @@ public struct FileControlParameter: CardItemType {
         case fileIdentifier = 0x03
         // gemSpec_COS#N014.300
         case applicationIdentifier = 0x04
+        /// gemSpec_COS#N014.700
+        case endOfFilePosition = 0x05
         // gemSpec_COS#N014.400
         case shortFileIdentifier = 0x08
         // gemSpec_COS#N014.500
@@ -97,7 +99,10 @@ public struct FileControlParameter: CardItemType {
     }
 
     public let status: LifeCycleState
+    /// Max File size (numberOfOctets gemSpec_COS#N014.000)
     public let size: UInt
+    /// File size (positionLogicalEndOfFile gemSpec_COS#N014.700)
+    public let readSize: UInt?
     /// Hex String
     public let fileDescriptor: String?
     public let fileIdentifier: FileIdentifier?
@@ -105,13 +110,14 @@ public struct FileControlParameter: CardItemType {
     public let shortFileIdentifier: ShortFileIdentifier?
 
     public init(status: LifeCycleState, size: UInt, fileDescriptor: String?, fid: FileIdentifier?,
-                aid: ApplicationIdentifier?, shortFid: ShortFileIdentifier?) {
+                aid: ApplicationIdentifier?, shortFid: ShortFileIdentifier?, readSize: UInt?) {
         self.status = status
         self.size = size
         self.fileDescriptor = fileDescriptor
         self.fileIdentifier = fid
         self.applicationIdentifier = aid
         self.shortFileIdentifier = shortFid
+        self.readSize = readSize
     }
 
     public enum Error: Swift.Error, Equatable {
@@ -140,8 +146,8 @@ public struct FileControlParameter: CardItemType {
 
         guard asn1Doc.tagNo == FileControlParameter.tag else {
             throw Error.invalidCard("Unexpected tag [0x\(asn1Doc.tag)] " +
-                    "found, while converting response data to FCP. " +
-                    "Expected: [0x\(String(FileControlParameter.tag, radix: 16))]"
+            "found, while converting response data to FCP. " +
+            "Expected: [0x\(String(FileControlParameter.tag, radix: 16))]"
             )
         }
 
@@ -160,6 +166,7 @@ public struct FileControlParameter: CardItemType {
         var applicationIdentifier: ApplicationIdentifier?
         var lifeCycleStatus: LifeCycleState?
         var shortFileIdentifier: ShortFileIdentifier?
+        var readSize: UInt?
 
         try asn1.data.items?.forEach { (object: ASN1Object) in
             guard !object.constructed else {
@@ -176,9 +183,11 @@ public struct FileControlParameter: CardItemType {
             case (Tag.applicationIdentifier.rawValue, .some(let primitive)):
                 applicationIdentifier = try ApplicationIdentifier(primitive)
             case (Tag.shortFileIdentifier.rawValue, .some(let primitive)):
-                shortFileIdentifier = try ShortFileIdentifier(primitive[0])
+                shortFileIdentifier = try ShortFileIdentifier(asn1: primitive)
             case (Tag.lifeCycleStatus.rawValue, .some(let primitive)):
                 lifeCycleStatus = LifeCycleState.parseLifeCycle(byte: primitive[0])
+            case (Tag.endOfFilePosition.rawValue, let primitive):
+                readSize = primitive?.unsignedIntValue
             default: break
             }
         }
@@ -187,12 +196,13 @@ public struct FileControlParameter: CardItemType {
             throw Error.invalidCard("FCP could not be created because of missing parameter(s)")
         }
         return FileControlParameter(
-                status: lcs,
-                size: numberOfOctets,
-                fileDescriptor: fileDescriptor,
-                fid: fileIdentifier,
-                aid: applicationIdentifier,
-                shortFid: shortFileIdentifier
+            status: lcs,
+            size: numberOfOctets,
+            fileDescriptor: fileDescriptor,
+            fid: fileIdentifier,
+            aid: applicationIdentifier,
+            shortFid: shortFileIdentifier,
+            readSize: readSize
         )
     }
 }
@@ -200,14 +210,15 @@ public struct FileControlParameter: CardItemType {
 extension FileControlParameter: CustomDebugStringConvertible, CustomStringConvertible {
     public var debugDescription: String {
         return """
-        FCP
-            size: \(size)
-            fileDescriptor: \(fileDescriptor ?? "none")
-            status: \(status)
-            fileIdentifier: \(fileIdentifier?.description ?? "none")
-            applicationIdentifier: \(applicationIdentifier?.description ?? "none")
-            shortFileIdentifier: \(shortFileIdentifier?.description ?? "none")
-        """
+               FCP
+                   size: \(size)
+                   readSize: \(String(describing: readSize))
+                   fileDescriptor: \(fileDescriptor ?? "none")
+                   status: \(status)
+                   fileIdentifier: \(fileIdentifier?.description ?? "none")
+                   applicationIdentifier: \(applicationIdentifier?.description ?? "none")
+                   shortFileIdentifier: \(shortFileIdentifier?.description ?? "none")
+               """
     }
 
     public var description: String {

@@ -1,0 +1,7 @@
+include::config.adoc[]
+
+== HealthCardAccess API
+
+include::HCARDA_Introduction.adoc[]
+include::HCARDA_Overview.adoc[]
+include::HCARDA_GettingStarted.adoc[]
