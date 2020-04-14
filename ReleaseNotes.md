@@ -1,3 +1,6 @@
+# Release 1.0.12
+- Formalize Pin modes - xcodegen project file configuration fixes
+
 # Release 1.0.10
 - API documentation on gh-pages branch for GitHub.io page - user guide - bugfixes regarding read from smart card
 

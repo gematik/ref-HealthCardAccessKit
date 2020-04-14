@@ -99,30 +99,44 @@ public struct EgkFileSystem {
     }
 
     /// Pin
-    public struct Pin {
-        private init() {}
-
+    public enum Pin: Password {
         /// PIN CH
-        public static let pinCH: Password = "01"
+        case pinCH
         /// MR.PIN.HOME
-        public static let mrpinHome: Password = "02"
+        case mrpinHome
         /// MR.PIN.NFD
-        public static let mrpinNFD: Password = "03"
+        case mrpinNFD
         /// MR.PIN.NFD.READ
-        public static let mrpinNFDREAD: Password = "07"
+        case mrpinNFDREAD
         /// MR.PIN.DPE
-        public static let mrpinDPE: Password = "04"
+        case mrpinDPE
         /// MR.PIN.DPEREAD
-        public static let mrpinDPEREAD: Password = "08"
+        case mrpinDPEREAD
         /// MR.PIN.GDD
-        public static let mprinGDD: Password = "05"
+        case mprinGDD
         /// MR.PIN.OSE
-        public static let mrpinOSE: Password = "09"
+        case mrpinOSE
         /// MR.PIN.AMTS
-        public static let mrpinAMTS: Password = "0C"
+        case mrpinAMTS
         /// MR.PIN.AMTSREP
-        public static let pinAMTSREP: Password = "0D"
+        case pinAMTSREP
         /// MR.PIN.QES
-        public static let pinQES: Password = "01"
+        case pinQES
+
+        public var rawValue: Password {
+            switch self {
+            case .pinCH: return "01"
+            case .mrpinHome: return "02"
+            case .mrpinNFD: return "03"
+            case .mrpinNFDREAD: return "07"
+            case .mrpinDPE: return "04"
+            case .mrpinDPEREAD: return "08"
+            case .mprinGDD: return "05"
+            case .mrpinOSE: return "09"
+            case .mrpinAMTS: return "0C"
+            case .pinAMTSREP: return "0D"
+            case .pinQES: return "01"
+            }
+        }
     }
 }

@@ -25,10 +25,16 @@ targets:
       - Sources
     dependencies:
       - carthage: CardReaderProviderApi
+        embed: true
       - carthage: CardReaderAccess
+        embed: true
       - carthage: GemCommonsKit
+        embed: true
       - carthage: ASN1Kit
+        embed: true
       - carthage: DataKit
+        embed: true
+    transitivelyLinkDependencies: true
     scheme:
       testTargets:
         - HealthCardAccessKitTests_${platform}
@@ -46,9 +52,6 @@ targets:
           - Util/HCATerminalTestCase.swift
     dependencies:
       - target: HealthCardAccessKit_${platform}
-      - carthage: CardReaderProviderApi
-      - carthage: CardReaderAccess
       - carthage: ObjCCommonsKit
       - carthage: Nimble
-      - carthage: DataKit
 buildImplicitDependencies: true
